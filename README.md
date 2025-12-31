@@ -1,211 +1,138 @@
-# LLM-Powered Technical Document Intelligence Assistant (RAG)
+# LLM-Based Machine Learning Experiment Design Critic
 
 ## 1. Overview
-This project implements a Retrieval-Augmented Generation (RAG) based AI assistant
-that enables users to query large collections of technical documents and receive
-accurate, source-grounded answers using Large Language Models (LLMs).
+This project implements an LLM-driven system that evaluates the **design and methodology of machine learning experiments**, independent of model performance or numerical results.
 
-The system is designed to eliminate hallucinations by forcing the LLM to answer
-only using retrieved document context.
+The system focuses on identifying conceptual and methodological flaws in an ML experiment before execution, helping ensure scientific validity, reproducibility, and trustworthy evaluation.
 
 ---
 
 ## 2. Problem Statement
-Organizations rely on large volumes of unstructured documents such as manuals,
-SOPs, research papers, and design documents. Traditional keyword search returns
-entire documents, not precise answers, and lacks reasoning capability.
+Many machine learning projects fail due to **incorrect experimental design**, even when models achieve high accuracy. Common issues include:
+- Data leakage caused by improper splitting strategies
+- Misaligned evaluation metrics
+- Missing or weak baseline comparisons
+- Invalid hyperparameter tuning procedures
+- Unsupported claims of generalization
 
-LLMs alone cannot be used reliably due to hallucination and limited context memory.
+These issues are difficult to detect using traditional automated tools and require **reasoning over methodology**, not computation.
 
 ---
 
-## 3. Solution
-We implement a RAG-based system where:
-- Documents are embedded into a vector space
-- Relevant document chunks are retrieved for each query
-- The LLM generates answers strictly grounded in retrieved content
+## 3. Proposed Solution
+The proposed system analyzes **structured metadata describing an ML experiment** and applies LLM-based reasoning to critique the experiment design.
+
+The system evaluates:
+- Dataset usage assumptions
+- Validation and splitting strategies
+- Metric suitability
+- Experimental rigor and reproducibility
+- Logical consistency of methodological choices
+
+No model training or result evaluation is performed.
 
 ---
 
 ## 4. System Architecture
 
-User Query  
-→ Query Embedding  
-→ Vector Database Search  
-→ Relevant Chunks Retrieval  
-→ LLM Prompt Construction  
-→ Grounded Answer + Citations  
-
----
-
-## 5. Key Components
-
-### 5.1 Document Loader
-- Supports PDF, DOCX, TXT
-- Extracts raw text
-- Cleans and normalizes content
-
-### 5.2 Text Chunking
-- Recursive chunking with overlap
-- Preserves semantic continuity
-
-### 5.3 Embedding Engine
-- Uses transformer-based embedding models
-- Converts text into fixed-length vectors
-
-### 5.4 Vector Database
-- Stores embeddings efficiently
-- Enables similarity search (cosine distance)
-
-### 5.5 LLM Answer Generator
-- Receives retrieved chunks as context
-- Generates natural language answers
-- Enforces citation usage
-
----
-
-## 6. Prompt Engineering Strategy
-- System prompt restricts hallucination
-- Explicit instruction to answer only from context
-- Returns “Insufficient Information” if context is missing
-
----
-
-## 7. Tech Stack
-- Language: Python
-- LLM: OpenAI / LLaMA / Mistral
-- Embeddings: SentenceTransformers
-- Vector DB: FAISS / Chroma
-- Backend: FastAPI
-- Frontend: Streamlit
-
----
-
-## 8. Evaluation Metrics
-- Answer correctness
-- Source alignment
-- Response latency
-- Hallucination rate
-
----
-
-## 9. Future Enhancements
-- Role-based document access
-- Chat memory with session context
-- Multi-document reasoning
-- Versioned document ingestion
-
----
-
-## 10. Expected Outcome
-A production-ready AI assistant capable of answering complex, multi-step
-questions from large document repositories with high accuracy and trust.
-
-
-
-# LLM-Based Resume and Job Matching Engine
-
-## 1. Overview
-This project builds an AI-powered resume matching system that uses semantic
-embeddings and LLM reasoning to evaluate how well a resume matches a given job
-description.
-
-Unlike traditional ATS systems, this solution provides transparency,
-interpretability, and actionable feedback.
-
----
-
-## 2. Problem Statement
-Keyword-based ATS systems fail to capture semantic relevance, leading to:
-- False rejections
-- Poor candidate feedback
-- Bias toward resume formatting
-
----
-
-## 3. Solution
-We implement a semantic matching pipeline where:
-- Resumes and job descriptions are embedded into a vector space
-- Similarity scores are computed logically
-- LLMs explain results and suggest improvements
-
----
-
-## 4. System Architecture
-
-Resume / JD Upload  
-→ Text Parsing  
-→ Embedding Generation  
-→ Similarity Computation  
-→ LLM Explanation  
-→ Final Match Report  
+Experiment Description Input  
+→ Schema Validation  
+→ Risk Signal Extraction  
+→ Prompt Construction  
+→ LLM-Based Methodology Critique  
+→ Structured Review Output  
 
 ---
 
 ## 5. Core Modules
 
-### 5.1 Resume Parser
-- Extracts structured information
-- Identifies sections and skills
+### 5.1 Experiment Schema Parser
+- Validates completeness of experiment metadata
+- Normalizes dataset, model, and evaluation fields
+- Flags missing or ambiguous information
 
-### 5.2 Job Description Analyzer
-- Extracts required and preferred skills
-- Identifies core responsibilities
+### 5.2 Risk Signal Extractor
+- Deterministically detects known methodological risk patterns
+- Examples:
+  - Temporal data with random splitting
+  - High class imbalance with accuracy as sole metric
+  - Preprocessing applied before train–test split
+- Produces structured risk indicators for LLM conditioning
 
-### 5.3 Embedding Engine
-- Generates semantic embeddings
-- Used for section-wise similarity scoring
+### 5.3 Prompt Builder
+- Constructs a constrained, rule-augmented prompt
+- Injects experiment summary and detected risks
+- Restricts reasoning strictly to experimental design
 
-### 5.4 Matching Logic
-- Skill similarity
-- Experience alignment
-- Role relevance
-- Weighted final score
-
-### 5.5 LLM Explanation Engine
-- Explains match score
-- Identifies missing skills
-- Suggests resume improvements
-- Generates human-readable feedback
-
----
-
-## 6. Match Score Computation
-Final Score =  
-(0.4 × Skill Similarity)  
-+ (0.3 × Experience Alignment)  
-+ (0.2 × Role Relevance)  
-+ (0.1 × Education Match)
+### 5.4 LLM Critique Engine
+- Performs contextual reasoning over experiment metadata
+- Identifies methodological flaws and risks
+- Produces structured, evidence-based critique
 
 ---
 
-## 7. Tech Stack
+## 6. Reasoning Dimensions
+The experiment is evaluated across fixed dimensions:
+- Data leakage and split validity
+- Metric–problem alignment
+- Baseline adequacy
+- Validation and tuning correctness
+- Generalization validity
+- Reproducibility and experimental rigor
+
+---
+
+## 7. Input Specification
+The system accepts a structured experiment description containing:
+- Dataset characteristics (type, size, imbalance, temporal nature)
+- Train/validation/test split strategy
+- Model and baseline selection
+- Hyperparameter tuning protocol
+- Evaluation metrics and testing methodology
+
+---
+
+## 8. Output Specification
+The system produces a structured review including:
+- Methodology risk level (Low / Medium / High)
+- Identified critical and moderate issues
+- Design-level recommendations
+- Confidence level based on input completeness
+
+---
+
+## 9. Hallucination Control
+- LLM reasoning constrained strictly to provided metadata
+- Deterministic risk extraction limits free-form inference
+- Missing information explicitly acknowledged
+- Output format enforced using a fixed schema
+
+---
+
+## 10. Tech Stack
 - Language: Python
-- NLP: SpaCy / NLTK
-- Embeddings: SentenceTransformers
-- LLM: OpenAI / LLaMA
-- Backend: FastAPI
-- Frontend: Streamlit
+- LLM: OpenAI / LLaMA / Mistral
+- Backend API: FastAPI
+- Prompt Templates: Version-controlled
+- Frontend (optional): Streamlit
 
 ---
 
-## 8. Evaluation Metrics
-- Matching precision
-- Explanation coherence
-- User satisfaction
-- Bias reduction
+## 11. Evaluation Strategy
+- Comparison with expert-reviewed ML experiment critiques
+- Testing on known flawed and well-designed experiment setups
+- Consistency checks across repeated LLM runs
+- Alignment with established ML best practices
 
 ---
 
-## 9. Future Enhancements
-- Multi-job comparison
-- ATS compatibility scoring
-- Domain-specific fine-tuning
-- Recruiter dashboard
+## 12. Limitations
+- Dependent on completeness of experiment metadata
+- No inspection of raw datasets or model outputs
+- Cannot verify numerical performance
+- Reasoning quality bounded by LLM capabilities
 
 ---
 
-## 10. Expected Outcome
-An intelligent, explainable resume matching system that improves
-candidate fairness and recruiter decision quality using LLMs.
-
+## 13. Expected Outcome
+A deployable system that audits **methodological integrity** of machine learning experiments before execution, reducing silent failures and improving reproducibility and scientific rigor.
